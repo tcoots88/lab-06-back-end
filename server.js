@@ -55,9 +55,9 @@ app.get('/location', (req, res) => {
 
 // app.get('/unicorn', handleUnicornRequest);
 
-// app.listen(PORT, () => {
-//   console.log(`app is up on PORT: ${PORT}`);
-// });
+app.listen(PORT, () => {
+  console.log(`app is up on PORT: ${PORT}`);
+});
 
 
 // function handleUnicornRequest(request, response){
