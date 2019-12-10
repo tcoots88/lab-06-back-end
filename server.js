@@ -44,12 +44,13 @@ app.get('/location', (req, res) => {
   const location = geometry.location;
   console.log(location);
 
-  res.send({location : {
+  res.send({
     'search_query': 'seattle',
     'formatted_query': 'Seattle, WA, USA',
     'latitude': '47.606210',
-    'longitude': '-122.332071'
-  } });
+    'longitude': '-122.332071'`
+  } );
+
 });
 
 
