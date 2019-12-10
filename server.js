@@ -15,23 +15,23 @@ require('dotenv').config();
 app.use(cors());
 
 
-// make a route so I can be talked to
-// the name of the route is going to be '/puppy' BECAUSE my client says so
-app.get('/puppy', (request, response) => {
-  // send sends it argument to the front end in the body property
-  response.send('Ginger is a puppy');
-});
+// // make a route so I can be talked to
+// // the name of the route is going to be '/puppy' BECAUSE my client says so
+// app.get('/puppy', (request, response) => {
+//   // send sends it argument to the front end in the body property
+//   response.send('Ginger is a puppy');
+// });
 
-function Yoda (name, url){
-  this.name = name;
-  this.image_url = url;
-}
+// function Yoda (name, url){
+//   this.name = name;
+//   this.image_url = url;
+// }
 
-app.get('/yoda', (request, response) => {
-  const y = new Yoda('I\'m yoda', 'https://cnet2.cbsistatic.com/img/WbIDMaD6bPQgqHrwITUe5HBx5lo=/756x567/2019/11/19/2eddb56d-56a3-4569-874e-32cd61180d6a/babyyoda2.jpg');
+// app.get('/yoda', (request, response) => {
+//   const y = new Yoda('I\'m yoda', 'https://cnet2.cbsistatic.com/img/WbIDMaD6bPQgqHrwITUe5HBx5lo=/756x567/2019/11/19/2eddb56d-56a3-4569-874e-32cd61180d6a/babyyoda2.jpg');
 
-  response.send(y);
-});
+//   response.send(y);
+// });
 
 app.get('/location', (req, res) => {
   // require does NOT take 1 million years
@@ -53,21 +53,21 @@ app.get('/location', (req, res) => {
 });
 
 
-app.get('/unicorn', handleUnicornRequest);
+// app.get('/unicorn', handleUnicornRequest);
 
-app.listen(PORT, () => {
-  console.log(`app is up on PORT: ${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`app is up on PORT: ${PORT}`);
+// });
 
 
-function handleUnicornRequest(request, response){
-  const unicorn = new Unicorn();
-  response.send({unicorn: unicorn});
-}
+// function handleUnicornRequest(request, response){
+//   const unicorn = new Unicorn();
+//   response.send({unicorn: unicorn});
+// }
 
-function Unicorn(){
-  this.legs = 3 + Math.round(Math.random());
-  this.magical = true;
-  this.children = [{horns : 1}];
+// function Unicorn(){
+//   this.legs = 3 + Math.round(Math.random());
+//   this.magical = true;
+//   this.children = [{horns : 1}];
 
-}
+// }
