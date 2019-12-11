@@ -1,8 +1,5 @@
 'use strict';
 
-// process.env tells node to look in the Environment for any variables
-// I can export environment variables with `export VARNAME=VALUE`
-// || is a Short circuit
 const PORT = process.env.PORT || 3000;
 const express = require('express');
 const cors = require('cors');
@@ -15,51 +12,62 @@ require('dotenv').config();
 app.use(cors());
 
 
-// // make a route so I can be talked to
-// // the name of the route is going to be '/puppy' BECAUSE my client says so
-// app.get('/puppy', (request, response) => {
-//   // send sends it argument to the front end in the body property
-//   response.send('Ginger is a puppy');
-// });
+app.get('/location', getLocation);
+app.get('/weather', getWeather);
 
-// function Yoda (name, url){
-//   this.name = name;
-//   this.image_url = url;
-// }
 
-function Location (location) {
-  this.formatted_query = location.formatted_address;
-  this.latitude = location.geometry.location.lat
-  this.longitude= location.geometry.location.lng
+
+function getLocation(request, response){
+  const locationData = geoCoord(request.query.data || 'Lynnwood, WA, USA');
+  response.send(locationData);
+}
+
+function getWeather(request, response){
+  const weatherData = searchWeather(request.query.data || 'Lynnwood, WA, USA');
+  response.send(weatherData);
 
 }
 
-// app.get('/yoda', (request, response) => {
-//   const y = new Yoda('I\'m yoda', 'https://cnet2.cbsistatic.com/img/WbIDMaD6bPQgqHrwITUe5HBx5lo=/756x567/2019/11/19/2eddb56d-56a3-4569-874e-32cd61180d6a/babyyoda2.jpg');
 
-//   response.send(y);
-// });
+function Location (location) {
+  this.formatted_query = location.formatted_address;
+  this.latitude = location.geometry.location.lat;
+  this.longitude= location.geometry.location.lng;
+}
 
-app.get('/location', (req, res) => {
+
+
+function Daily(dailyForecast){
+  this.forecast = dailyForecast.summary;
+  this.time = new Date(dailyForecast.time * 1000).toDateString();
+}
+
+
+
+function geoCoord(query){
   const geoData = require('./data/geo.json');
-  console.log(geoData);
-  const firstGeoDataResult = geoData.results[0];
-  console.log(firstGeoDataResult);
-  const geometry = firstGeoDataResult.geometry;
-  console.log(geometry);
-  const location = geometry.location;
-  console.log(location);
-  
-  res.send({
-    'search_query': 'seattle',
-    'formatted_query': 'Seattle, WA, USA',
-    'latitude': '47.606210',
-    'longitude': '-122.332071'
-  });
-});
+  const location = new Location(geoData.results[0]);
+  return location;
+}
+
+function searchWeather(query){{
+  let darkSkyData = require('./data/darksky.json');
+  console.log(darkSkyData);
+  let weatherArray = [];
+  darkSkyData.daily.data.forEach(forecast => weatherArray.push(new Daily(forecast)));
+  console.log(weatherArray);
+  return weatherArray;
+}}
 
 
-// app.get('/unicorn', handleUnicornRequest)
+// Error Handler
+app.get('/*', function(request, response){
+  response.status(404).send('Sorry')
+})
+
+
+
+
 app.listen(PORT, () => {
   console.log(`app is running on PORT: ${PORT}`);
 
